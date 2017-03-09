@@ -335,7 +335,7 @@ class htcondor::config (
       source => $pool_password,
       owner  => root,
       group  => root,
-      mode   => '0640',
+      mode   => '0600',
     }
   }
 
