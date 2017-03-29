@@ -1,8 +1,7 @@
 # Class htcondor::install
 #
 # Install HTCondor packages
-class htcondor::install (
-  $ensure = present,
+class htcondor::install ( $ensure = present ) (
   $dev_repos = false,) {
   if $dev_repos {
     $repo = 'htcondor-development'
