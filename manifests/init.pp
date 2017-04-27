@@ -142,6 +142,7 @@ class htcondor (
   $is_worker                      = false,
   $machine_owner                  = 'physics',
   $managers                       = [],
+  $memory_factor                  = 1000,
   $number_of_cpus                 = undef,
   $partitionable_slots            = true,
   $memory_overcommit              = 1.5,
