@@ -182,7 +182,7 @@ class htcondor (
   $use_claim_to_be_auth           = $htcondor::params::use_claim_to_be_auth,
   $use_cert_map_file              = $htcondor::params::use_cert_map_file,
   $use_krb_map_file               = $htcondor::params::use_krb_map_file,
-  $use_ssl_auth                   = $htcondor::use_ssl_auth,
+  $use_ssl_auth                   = $htcondor::params::use_ssl_auth,
   $use_pid_namespaces             = $htcondor::params::use_pid_namespaces,
   $uses_connection_broker         = $htcondor::params::uses_connection_broker,
   $private_network_name           = $htcondor::params::private_network_name,
