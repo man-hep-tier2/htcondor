@@ -10,14 +10,28 @@ FILESYSTEM_DOMAIN = <%= @filesystem_domain %>
 
 COLLECTOR_HOST = <%= @managers.flatten.join(', ') %>
 
+<% if @uses_connection_broker == true then -%>
+CCB_ADDRESS = $(COLLECTOR_HOST)
+PRIVATE_NETWORK_NAME = <%= @private_network_name -%>
+<% end -%>
+
 <% if @cluster_has_multiple_domains == true then -%>
 TRUST_UID_DOMAIN = True
 <% end -%>
 
 # Machines & users
-CMS = <%= @managers.flatten.join(', ') %>
-CES = <%= @computing_elements.flatten.join(', ') %>
-WNS = <%= @worker_nodes.flatten.join(', ') %>
+<% if @manager_list then -%>
+CMS = \
+<%= @manager_list.sort.map { |k| "      #{k}" }.join(", \\\n") -%>
+<% end %>
+<% if @scheduler_list then -%>
+CES = \
+<%= @scheduler_list.sort.map { |k| "      #{k}" }.join(", \\\n") -%>
+<% end %>
+<% if @worker_list then -%>
+WNS = \
+<%= @worker_list.sort.map { |k| "      #{k}" }.join(", \\\n") -%>
+<% end %>
 
 USERS = *@$(UID_DOMAIN)
 
@@ -28,11 +42,12 @@ HOSTALLOW_DAEMON =
 HOSTALLOW_NEGOTIATOR =
 HOSTALLOW_ADMINISTRATOR =
 HOSTALLOW_OWNER =
-HOSTALLOW_NEGOTIATOR = $(COLLECTOR_HOST)
-HOSTALLOW_ADMINISTRATOR = $(COLLECTOR_HOST)
-HOSTALLOW_NEGOTIATOR_SCHEDD = $(COLLECTOR_HOST)
+HOSTALLOW_NEGOTIATOR =
+HOSTALLOW_ADMINISTRATOR =
+HOSTALLOW_NEGOTIATOR_SCHEDD =
 
-ALLOW_READ = */*.$(UID_DOMAIN)
+# allow read to anyone, block unwanted with iptables
+ALLOW_READ = *
 ALLOW_WRITE = $(CMS), $(CES), $(WNS)
 
 #if the CE has a private NIC, it needs to be included here as well
@@ -42,42 +57,75 @@ COLLECTOR.ALLOW_ADVERTISE_STARTD = $(WNS)
 
 SCHEDD.ALLOW_WRITE = $(USERS), $(CES)
 
-ALLOW_DAEMON = condor@$(UID_DOMAIN)/*.$(UID_DOMAIN), condor_pool@$(UID_DOMAIN)/*.$(UID_DOMAIN)
-ALLOW_ADMINISTRATOR = *@$(UID_DOMAIN)/$(FULL_HOSTNAME)
+ALLOW_DAEMON = condor@$(UID_DOMAIN), \
+               condor@$(UID_DOMAIN)/*.$(UID_DOMAIN), \
+               condor_pool@$(UID_DOMAIN), \
+               condor_pool@$(UID_DOMAIN)/*.$(UID_DOMAIN), \
+               $(FULL_HOSTNAME)
+<% if @is_worker then -%>
+# fix for new security default in HTCondor 8.4.X (fixed in 8.5.1)
+ALLOW_DAEMON = $(ALLOW_DAEMON), \
+               submit-side@matchsession/*, \
+               execute-side@matchsession/*
+<% end -%>
+ALLOW_ADMINISTRATOR = root@$(UID_DOMAIN)/$(IP_ADDRESS), condor_pool@$(UID_DOMAIN)/$(IP_ADDRESS), $(CMS)
 ALLOW_CONFIG = root@$(FULL_HOSTNAME)
+ALLOW_NEGOTIATOR = $(CMS)
+ALLOW_NEGOTIATOR_SCHEDD = $(CMS)
 
 # Don't allow nobody to run jobs
 SCHEDD.DENY_WRITE = nobody@$(UID_DOMAIN)
 # Authentication
 SEC_DEFAULT_AUTHENTICATION = REQUIRED
 SEC_READ_AUTHENTICATION = OPTIONAL
+<% if @auth_string.include? "ANONYMOUS" -%>
+SEC_CLIENT_AUTHENTICATION = OPTIONAL
+<% else -%>
 SEC_CLIENT_AUTHENTICATION = REQUIRED
+<% end -%>
 SEC_DEFAULT_AUTHENTICATION_METHODS = <%= @auth_string %>
 SEC_CLIENT_AUTHENTICATION_METHODS = <%= @auth_string %>
 SEC_READ_AUTHENTICATION_METHODS = <%= @auth_string %>
 SCHEDD.SEC_WRITE_AUTHENTICATION_METHODS = <%= @auth_string %>
 SCHEDD.SEC_DAEMON_AUTHENTICATION_METHODS = <%= @auth_string %>
 
-<% if @use_kerberos_auth then -%>
-SEC_ENABLE_MATCH_PASSWORD_AUTHENTICATION = True
-<% if @use_cert_map_file -%>
+<% if @use_cert_map_file then -%>
 CERTIFICATE_MAPFILE = <%= @cert_map_file %>
 <% end -%>
-<% if @use_krb_map_file -%>
-CERTIFICATE_MAPFILE = <%= @krb_map_file %>
+<% if @use_kerberos_auth then -%>
+SEC_ENABLE_MATCH_PASSWORD_AUTHENTICATION = True
+<% if @use_krb_map_file then -%>
+KERBEROS_MAP_FILE = <%= @krb_map_file %>
 <% end -%>
 <% end -%>
 <% if @use_password_auth then -%>
 SEC_PASSWORD_FILE = /etc/condor/pool_password
 <% end -%>
 
-# Integrity
-SEC_DEFAULT_INTEGRITY = REQUIRED
+<% if @use_ssl_auth then -%>
+AUTH_SSL_SERVER_KEYFILE = <%= @ssl_server_keyfile %>
+AUTH_SSL_CLIENT_KEYFILE = <%= @ssl_client_keyfile %>
+AUTH_SSL_SERVER_CERTFILE = <%= @ssl_server_certfile %>
+AUTH_SSL_CLIENT_CERTFILE = <%= @ssl_client_certfile %>
+AUTH_SSL_SERVER_CAFILE = <%= @ssl_server_cafile %>
+AUTH_SSL_CLIENT_CAFILE = <%= @ssl_client_cafile %>
+AUTH_SSL_SERVER_CADIR = <%= @ssl_server_cadir %>
+AUTH_SSL_CLIENT_CADIR = <%= @ssl_client_cadir %>
+<% end -%>
+
 # Encryption
 SEC_DEFAULT_ENCRYPTION = REQUIRED
 SEC_DEFAULT_CRYPTO_METHODS = BLOWFISH
+<% if @auth_string.include? "ANONYMOUS" -%>
+SEC_READ_ENCRYPTION = OPTIONAL
+SEC_CLIENT_ENCRYPTION = OPTIONAL
+<% end -%>
 
 # Integrity
 SEC_DEFAULT_INTEGRITY  = REQUIRED
+<% if @auth_string.include? "ANONYMOUS" -%>
+SEC_READ_INTEGRITY = OPTIONAL
+SEC_CLIENT_INTEGRITY = OPTIONAL
+<% end -%>
 SEC_DAEMON_INTEGRITY = REQUIRED
 SEC_NEGOTIATOR_INTEGRITY = REQUIRED
