@@ -49,37 +49,9 @@ class htcondor::config {
     anchor { 'htcondor::common_config_done':
       require => [ Class[$common_class], Class[$sharedport_class] ],
     }
-<<<<<<< HEAD
-
-    if $use_krb_map_file {
-      file { $krb_map_file:
-        ensure => present,
-        source => $kerberos_mapfile,
-        owner  => $condor_user,
-        group  => $condor_group,
-      }
-    }
-  }
-
-  if $use_password_auth {
-    # even if condor runs as condor, it just drops privileges and needs to start
-    # as root.
-    # if file is not owned by root, condor will throw this error :
-    # 06/12/14 15:38:40 error: SEC_PASSWORD_FILE must be owned by Condor's real
-    # uid
-    # 06/12/14 15:38:40 error: SEC_PASSWORD_FILE must be owned by Condor's real
-    # uid
-    file { '/etc/condor/pool_password':
-      ensure => present,
-      source => $pool_password,
-      owner  => root,
-      group  => root,
-      mode   => '0600',
-=======
   } else {
     anchor { 'htcondor::common_config_done':
       require => Class[$common_class]
->>>>>>> upstream/master
     }
   }
 
