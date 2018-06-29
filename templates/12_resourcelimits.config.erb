@@ -3,10 +3,10 @@
 
 ## Time limits
 RemoveDefaultJobWallTime = ( RemoteWallClockTime > <%= @max_walltime %> )
-RemoveDefaultJobCpuTime  = ( RemoteSysCpu + RemoteUserCpu > <%= @max_cputime %> )
+RemoveDefaultJobCpuTime  = ( RemoteSysCpu + RemoteUserCpu > RequestCpus * <%= @max_cputime %> )
 
 ## Memory usage limit
-RemoveMemoryUsage = ( ResidentSetSize_RAW > <%= @memory_factor %>*RequestMemory )
+RemoveMemoryUsage = ( ResidentSetSize_RAW > <%= @memory_factor %> * RequestMemory )
 
 ## Held jobs - don't want them to stay in the system forever
 RemoveHeldJobs = ( (JobStatus==5 && (CurrentTime - EnteredCurrentStatus) > 30 * 60) )
