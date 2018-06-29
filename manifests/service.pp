@@ -1,10 +1,13 @@
 # Class htcondor::service
 #
 # Starts the services for HTCondor
-class htcondor::service {
+class htcondor::service(
+  $ensure = 'running',
+  $enable = true,
+) {
   service { 'condor':
-    ensure     => running,
-    enable     => true,
+    ensure     => $ensure,
+    enable     => $enable,
     hasrestart => true,
     hasstatus  => true,
   }
