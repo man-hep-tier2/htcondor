@@ -37,7 +37,7 @@ AcctGroup = strcat("group_", ManAcctGroup, ".",AcctSubGroup)
 AccountingGroup = $(AcctGroup)
 
 ConcurrencyLimits = strcat(AcctGroup, ",", AcctSubGroup, ",", Owner)
-SUBMIT_EXPRS = $(SUBMIT_EXPRS) AcctGroup, AcctSubGroup, AccountingGroup, ConcurrencyLimits
+SUBMIT_EXPRS = $(SUBMIT_EXPRS) AcctGroup, ManAcctGroup, AcctSubGroup, AccountingGroup, ConcurrencyLimits
 <% else -%>
 
 <% end %>
