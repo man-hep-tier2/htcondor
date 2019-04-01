@@ -32,7 +32,7 @@ ManAcctGroup = ifThenElse(regexp("t2k.org", x509UserProxyVOName), "t2k", \
                ifThenElse(regexp("skatelescope.eu", x509UserProxyVOName), "skatelescope", \
                x509UserProxyVOName))))
 
-AcctGroup = strcat("group_", ManAcctGroup, ".",AcctSubGroup, ".", Owner)
+AcctGroup = strcat("group_", ManAcctGroup, ".",AcctSubGroup)
 
 AccountingGroup = $(AcctGroup)
 
