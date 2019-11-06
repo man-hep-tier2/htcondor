@@ -104,3 +104,8 @@ MAX_NUM_TRANSFERER_LOG = 10
 TRANSFERER_DEBUG = D_COMMAND
 ## Replication log file
 TRANSFERER_LOG = $(LOG)/TransferLog
+
+# The transferer creates /var/lib/condor/spool/Version which isn't listed
+# in SYSTEM_VALID_SPOOL_FILES by default and therefore is being removed by
+# condor_preen
+SYSTEM_VALID_SPOOL_FILES = $(SYSTEM_VALID_SPOOL_FILES), Version
