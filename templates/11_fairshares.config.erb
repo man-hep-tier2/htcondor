@@ -31,7 +31,10 @@ GROUP_PRIO_FACTOR_group_<%= key %> =  <%= value['priority_factor'] %>
 <% @accounting_groups.keys.sort.each do |key| -%>
 <% value = @accounting_groups[key] -%>
 <% if value.has_key?('dynamic_quota') -%>
-GROUP_QUOTA_DYNAMIC_group_<%= key %> =  <%= value['dynamic_quota'] %>
+GROUP_QUOTA_DYNAMIC_group_<%= key %> = <%= value['dynamic_quota'] %>
+<% end -%>
+<% if value.has_key?('static_quota') -%>
+GROUP_QUOTA_group_<%= key %> = <%= value['static_quota'] %>
 <% end -%>
 <% end %>
 
