@@ -30,6 +30,7 @@ ManAcctGroup = ifThenElse(regexp("t2k.org", x509UserProxyVOName), "t2k", \
                ifThenElse(regexp("^/vo.northgrid.ac.uk/manchester", x509UserProxyFirstFQAN), "northgrid.manchester", \
                ifThenElse(regexp("vo.northgrid.ac.uk", x509UserProxyVOName), "northgrid", \
                ifThenElse(regexp("skatelescope.eu", x509UserProxyVOName), "skatelescope", \
+               ifThenElse(regexp("eucliduk.net", x509UserProxyVOName), "eucliduk", \
                ifThenElse(regexp("^/fermilab/uboone", x509UserProxyFirstFQAN), "fermilab.uboone", \
                x509UserProxyVOName)))))
 
