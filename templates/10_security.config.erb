@@ -56,7 +56,12 @@ COLLECTOR.ALLOW_ADVERTISE_SCHEDD = $(CES)
 COLLECTOR.ALLOW_ADVERTISE_STARTD = $(WNS)
 
 SCHEDD.ALLOW_WRITE = $(USERS), $(CES)
-
+<% if @is_scheduler and @is_dedicated then -%>
+# when a parallel job (machine_count > 1) transfers input files, it downloads the files from the shadow process
+# this seems to try to authenticate using execute-side@matchsession/<worker node> and fails due to a missing write permission
+# this didn't seem to happen on all worker nodes, but putting below workaround onto the schedd seems to solve the problem
+SHADOW.ALLOW_WRITE = $(SHADOW.ALLOW_WRITE), execute-side@matchsession/*
+<% end -%>
 ALLOW_DAEMON = condor@$(UID_DOMAIN), \
                condor@$(UID_DOMAIN)/*.$(UID_DOMAIN), \
                condor_pool@$(UID_DOMAIN), \

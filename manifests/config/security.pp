@@ -37,8 +37,10 @@ class htcondor::config::security {
   $default_domain_name          = $htcondor::default_domain_name
   $filesystem_domain            = $htcondor::filesystem_domain
   $is_worker                    = $htcondor::is_worker
+  $is_scheduler                 = $htcondor::is_scheduler
   $machine_prefix_remote        = $htcondor::machine_list_prefix
   $uid_domain                   = $htcondor::uid_domain
+  $is_dedicated                 = $htcondor::is_dedicated
 
   # for private networks
   $uses_connection_broker       = $htcondor::uses_connection_broker
