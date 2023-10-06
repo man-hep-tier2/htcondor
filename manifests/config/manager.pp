@@ -1,11 +1,11 @@
 # htcondor::config::manager
 class htcondor::config::manager {
   include htcondor::config::security
+  include htcondor::config::ganglia
   # general - manifest or 1 or more configs
   $condor_user           = $htcondor::condor_user
   $condor_group          = $htcondor::condor_group
   $enable_multicore      = $htcondor::enable_multicore
-  $ganglia_cluster_name  = $htcondor::ganglia_cluster_name
   $managers              = $htcondor::managers
   $use_accounting_groups = $htcondor::use_accounting_groups
   # /etc/condor/config.d/11_fairshares.config
@@ -21,7 +21,6 @@ class htcondor::config::manager {
   # template files
   $template_defrag       = $htcondor::template_defrag
   $template_fairshares   = $htcondor::template_fairshares
-  $template_ganglia      = $htcondor::template_ganglia
   $template_ha           = $htcondor::template_highavailability
   $template_manager      = $htcondor::template_manager
 
@@ -43,17 +42,6 @@ class htcondor::config::manager {
     group   => $condor_group,
     mode    => '0644',
     notify  => Exec['/usr/sbin/condor_reconfig'],
-  }
-
-  if $ganglia_cluster_name {
-    file { '/etc/condor/config.d/23_ganglia.config':
-      content => template($template_ganglia),
-      require => Package['condor'],
-      owner   => $condor_user,
-      group   => $condor_group,
-      mode    => '0644',
-      notify  => Exec['/usr/sbin/condor_reconfig'],
-    }
   }
 
   if $enable_multicore {
