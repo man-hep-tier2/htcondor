@@ -65,7 +65,7 @@ class htcondor::params {
 
   $machine_owner                  = hiera('machine_owner', 'physics')
 
-  $number_of_cpus                 = hiera('number_of_cpus', $::processors['count'
+  $number_of_cpus                 = hiera('number_of_cpus', $facts['processors']['count'
     ])
 
   $partitionable_slots            = hiera('partitionable_slots', true)
@@ -89,7 +89,7 @@ class htcondor::params {
 
   $uid_domain                     = hiera('uid_domain', 'example.org')
   $default_domain_name            = hiera('default_domain_name', $uid_domain)
-  $filesystem_domain              = hiera('filesystem_domain', $::fqdn)
+  $filesystem_domain              = hiera('filesystem_domain', $facts['networking']['fqdn'])
 
   $use_accounting_groups          = hiera('use_accounting_groups', false)
   $use_htcondor_account_mapping   = hiera('use_htcondor_account_mapping', true)
@@ -133,7 +133,7 @@ class htcondor::params {
 
   # for private networks
   $uses_connection_broker         = hiera('uses_connection_broker', false)
-  $private_network_name           = hiera('private_network_name', $::domain)
+  $private_network_name           = hiera('private_network_name', $facts['networking']['domain'])
 
   # SharedPort service configuration
   $use_shared_port                = hiera('use_shared_port', false)

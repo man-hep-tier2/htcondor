@@ -4,9 +4,9 @@
 class htcondor::repositories {
   $dev_repos       = $htcondor::dev_repositories
   $condor_priority = $htcondor::condor_priority
-  $major_release   = regsubst($::operatingsystemrelease, '^(\d+)\.\d+$', '\1')
+  $major_release   = regsubst($facts['os']['release']['major'], '^(\d+)\.\d+$', '\1')
 
-  case $::osfamily {
+  case $facts['os']['name'] {
     'RedHat'  : {
       if $dev_repos {
         yumrepo { 'htcondor-development':
