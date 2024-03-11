@@ -39,7 +39,7 @@ class htcondor::repositories {
       notify { 'Windows based systems currently not supported': }
     }
     default   : {
-      $osfamily = $::osfamily
+      $osfamily = $facts['os']['family']
 
       notify { "OS family '${osfamily}' not recognised": }
     }
