@@ -5,8 +5,8 @@ class htcondor::config::ganglia {
     file { '/etc/condor/config.d/23_ganglia.config':
       content => template($template_ganglia),
       require => Package['condor'],
-      owner   => $condor_user,
-      group   => $condor_group,
+      owner   => $htcondor::condor_user,
+      group   => $htcondor::condor_group,
       mode    => '0644',
       notify  => Exec['/usr/sbin/condor_reconfig'],
     }
