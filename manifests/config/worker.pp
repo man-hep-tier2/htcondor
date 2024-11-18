@@ -53,7 +53,7 @@ class htcondor::config::worker {
     }
   }
 
-  file { '/usr/local/bin/healhcheck_wn_condor':
+  file { '/usr/local/bin/healthcheck_wn_condor':
     source => $health_check_script,
     owner  => $condor_user,
     group  => $condor_group,
