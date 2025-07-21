@@ -51,6 +51,4 @@ MAX_NUM_MASTER_LOG = 10
 ##  The list is a comma or space separated list of subsystem names
 DAEMON_LIST = <%= @daemon_list %>
 
-<% if @breadth_first -%>
-CLAIM_PARTITIONABLE_LEFTOVERS = false
-<% end -%>
+CLAIM_PARTITIONABLE_LEFTOVERS = <%= "#{!@breadth_first}".capitalize %>

@@ -42,6 +42,4 @@ MAX_NUM_MASTER_LOG = 10
 ##  The list is a comma or space separated list of subsystem names
 DAEMON_LIST = <%= @daemon_list %>
 
-<% if @breadth_first -%>
-NEGOTIATOR_DEPTH_FIRST = false
-<% end -%>
+NEGOTIATOR_DEPTH_FIRST = <%= "#{!@breadth_first}".capitalize %>
