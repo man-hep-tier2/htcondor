@@ -23,6 +23,7 @@ class htcondor::config::manager {
   $template_fairshares   = $htcondor::template_fairshares
   $template_ha           = $htcondor::template_highavailability
   $template_manager      = $htcondor::template_manager
+  $breadth_first         = $htcondor::breadth_first
 
   if $use_accounting_groups {
     file { '/etc/condor/config.d/11_fairshares.config':

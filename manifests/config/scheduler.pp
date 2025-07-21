@@ -21,6 +21,7 @@ class htcondor::config::scheduler {
   $template_queues            = $htcondor::template_queues
   $template_resourcelimits    = $htcondor::template_resourcelimits
   $template_schedd            = $htcondor::template_schedd
+  $breadth_first              = $htcondor::breadth_first
 
   file { '/etc/condor/config.d/12_resourcelimits.config':
     content => template($template_resourcelimits),
@@ -50,5 +51,4 @@ class htcondor::config::scheduler {
     mode    => '0644',
     notify  => Exec['/usr/sbin/condor_reconfig'],
   }
-
 }

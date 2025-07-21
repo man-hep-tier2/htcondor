@@ -100,8 +100,7 @@
 # Sample Usage:
 class htcondor (
   $accounting_groups              = $htcondor::params::accounting_groups,
-  $cluster_has_multiple_domains   =
-  $htcondor::params::cluster_has_multiple_domains,
+  $cluster_has_multiple_domains   = $htcondor::params::cluster_has_multiple_domains,
   $collector_name                 = $htcondor::params::collector_name,
   $email_domain                   = $htcondor::params::email_domain,
   $schedulers                     = $htcondor::params::schedulers,
@@ -122,8 +121,7 @@ class htcondor (
   $group_accept_surplus           = $htcondor::params::group_accept_surplus,
   $group_autoregroup              = $htcondor::params::group_autoregroup,
   $health_check_script            = $htcondor::params::health_check_script,
-  $include_username_in_accounting =
-  $htcondor::params::include_username_in_accounting,
+  $include_username_in_accounting = $htcondor::params::include_username_in_accounting,
   $install_repositories           = $htcondor::params::install_repositories,
   $dev_repositories               = $htcondor::params::dev_repositories,
   $is_scheduler                   = $htcondor::params::is_scheduler,
@@ -141,8 +139,7 @@ class htcondor (
   $mount_under_scratch_dirs       = $htcondor::params::mount_under_scratch_dirs,
   $queues                         = $htcondor::params::queues,
   $periodic_expr_interval         = $htcondor::params::periodic_expr_interval,
-  $max_periodic_expr_interval     =
-  $htcondor::params::max_periodic_expr_interval,
+  $max_periodic_expr_interval     = $htcondor::params::max_periodic_expr_interval,
   $remove_held_jobs_after         = $htcondor::params::remove_held_jobs_after,
   $leave_job_in_queue             = $htcondor::params::leave_job_in_queue,
   $ganglia_cluster_name           = $htcondor::params::ganglia_cluster_name,
@@ -170,10 +167,8 @@ class htcondor (
   $template_defrag                = $htcondor::params::template_defrag,
   $template_sharedport            = $htcondor::params::template_sharedport,
   $template_singularity           = $htcondor::params::template_singularity,
-  $template_highavailability      =
-  $htcondor::params::template_highavailability,
-  $use_htcondor_account_mapping   =
-  $htcondor::params::use_htcondor_account_mapping,
+  $template_highavailability      = $htcondor::params::template_highavailability,
+  $use_htcondor_account_mapping   = $htcondor::params::use_htcondor_account_mapping,
   $use_anonymous_auth             = $htcondor::params::use_anonymous_auth,
   $use_fs_auth                    = $htcondor::params::use_fs_auth,
   $use_password_auth              = $htcondor::params::use_password_auth,
@@ -211,8 +206,8 @@ class htcondor (
   $singularity_bind_paths         = $htcondor::params::singularity_bind_paths,
   $singularity_target_dir         = $htcondor::params::singularity_target_dir,
   $is_dedicated                   = false,
-) inherits
-::htcondor::params {
+  $breadth_first                  = false,
+) inherits ::htcondor::params {
   if $install_repositories {
     class { 'htcondor::repositories': }
     Class['htcondor::repositories'] -> Class['htcondor::install']
