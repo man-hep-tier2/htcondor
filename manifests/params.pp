@@ -118,7 +118,7 @@ class htcondor::params {
   )
   $krb_map_file_source            = hiera('krb_map_file_source', "puppet:///modules/${module_name}/kerberos_mapfile"
   )
-  $machine_list_prefix            = hiera('machine_list_prefix', 'condor_pool@$(UID_DOMAIN)/'
+  $machine_list_prefix            = hiera('machine_list_prefix', 'condor@password/'
   )
   $pool_password_file             = hiera('pool_password_file', "puppet:///modules/${module_name}/pool_password"
   )

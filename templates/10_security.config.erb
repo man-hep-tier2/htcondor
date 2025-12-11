@@ -64,8 +64,8 @@ SHADOW.ALLOW_WRITE = $(SHADOW.ALLOW_WRITE), execute-side@matchsession/*
 <% end -%>
 ALLOW_DAEMON = condor@$(UID_DOMAIN), \
                condor@$(UID_DOMAIN)/*.$(UID_DOMAIN), \
-               condor_pool@$(UID_DOMAIN), \
-               condor_pool@$(UID_DOMAIN)/*.$(UID_DOMAIN), \
+               condor@password, \
+               condor@password/*.$(UID_DOMAIN), \
                $(FULL_HOSTNAME)
 <% if @is_worker then -%>
 # fix for new security default in HTCondor 8.4.X (fixed in 8.5.1)
@@ -73,7 +73,7 @@ ALLOW_DAEMON = $(ALLOW_DAEMON), \
                submit-side@matchsession/*, \
                execute-side@matchsession/*
 <% end -%>
-ALLOW_ADMINISTRATOR = root@$(UID_DOMAIN)/$(IP_ADDRESS), condor_pool@$(UID_DOMAIN)/$(IP_ADDRESS), $(CMS), condor@password
+ALLOW_ADMINISTRATOR = root@$(UID_DOMAIN)/$(IP_ADDRESS), condor@password/$(IP_ADDRESS), $(CMS)
 ALLOW_CONFIG = root@$(FULL_HOSTNAME)
 ALLOW_NEGOTIATOR = $(CMS)
 ALLOW_NEGOTIATOR_SCHEDD = $(CMS)
