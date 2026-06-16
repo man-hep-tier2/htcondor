@@ -24,7 +24,13 @@ class htcondor::params {
   $enable_cgroup                  = hiera('enable_cgroup', false)
   $enable_multicore               = hiera('enable_multicore', false)
   $enable_healthcheck             = hiera('enable_healthcheck', false)
+  $cgroup_memory_policy           = hiera('cgroup_memory_policy', 'soft')
+  $cgroup_custom_policy_expr      = hiera('cgroup_custom_policy_expr', undef)
+  $cgroup_low_memory_limit        = hiera('cgroup_low_memory_limit', undef)
+  $cgroup_ignore_cache_mem        = hiera('cgroup_ignore_cache_mem', true)
+  $cgroup_polling_interval        = hiera('cgroup_polling_interval', 5)
 
+  $startd_rank_expression                = hiera('startd_rank_expression', undef)
 
   if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7' {
     $htcondor_cgroup_default = '/system.slice/condor.service'

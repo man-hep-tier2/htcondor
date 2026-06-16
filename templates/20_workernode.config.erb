@@ -67,7 +67,11 @@ SLOT_TYPE_1_PARTITIONABLE = TRUE
 MODIFY_REQUEST_EXPR_REQUESTMEMORY = quantize(RequestMemory,100)
 <% end -%>
 ## Disable preemption by machine RANK by ranking all jobs equally
+<% if @startd_rank_expression -%>
+RANK = <%= @startd_rank_expression %>
+<% else -%>
 RANK = 0
+<% end -%>
 
 ## Niceness of user jobs
 JOB_RENICE_INCREMENT = 10
@@ -112,7 +116,15 @@ MAX_NUM_STARTD_LOG = 10
 <%- if @enable_cgroup -%>
 # Enable CGROUP
 BASE_CGROUP = <%= @htcondor_cgroup %>
-CGROUP_MEMORY_LIMIT_POLICY = soft
+CGROUP_MEMORY_LIMIT_POLICY = <%= @cgroup_memory_policy %>
+<%- if @cgroup_custom_policy_expr -%>
+CGROUP_HARD_MEMORY_LIMIT_EXPR = <%= @cgroup_custom_policy_expr %>
+<%- end -%>
+<%- if @cgroup_low_memory_limit -%>
+CGROUP_LOW_MEMORY_LIMIT = <%= @cgroup_low_memory_limit %>
+<%- end -%>
+CGROUP_IGNORE_CACHE_MEMORY = <%= @cgroup_ignore_cache_mem %>
+CGROUP_POLLING_INTERVAL = <%= @cgroup_polling_interval %>
 <%- end -%>
 
 ## Debugging

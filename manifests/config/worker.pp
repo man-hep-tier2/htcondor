@@ -22,6 +22,12 @@ class htcondor::config::worker {
   $pool_home                 = $htcondor::pool_home
   $use_pid_namespaces        = $htcondor::use_pid_namespaces
   $mount_under_scratch_dirs  = $htcondor::mount_under_scratch_dirs
+  $cgroup_memory_policy      = $htcondor::cgroup_memory_policy
+  $cgroup_custom_policy_expr = $htcondor::cgroup_custom_policy_expr
+  $cgroup_low_memory_limit   = $htcondor::cgroup_low_memory_limit
+  $cgroup_ignore_cache_mem   = $htcondor::cgroup_ignore_cache_mem
+  $cgroup_polling_interval   = $htcondor::cgroup_polling_interval
+  $startd_rank_expression    = $htcondor::startd_rank_expression
   # /etc/condor/config.d/50_singularity.config
   $use_singularity           = $htcondor::use_singularity
   $singularity_path          = $htcondor::singularity_path
